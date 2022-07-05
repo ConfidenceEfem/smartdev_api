@@ -1,0 +1,30 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.mainBody {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  background-color: #fafcff;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodycard {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 80%;
+}
+
+.logoCard {
+  width: 150px;
+  height: 50px;
+}
+.logoCard img {
+  width: 100px;
+  height: 50px;
+  object-fit: cover;
+}
