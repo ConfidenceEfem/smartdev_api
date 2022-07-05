@@ -37,7 +37,7 @@ const RegisterAUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     createOtp.otp = await bcrypt.hash(createOtp.otp, salt);
 
-    createOtp.save();
+    const result = await createOtp.save();
 
     res.status(201).json({
       message: 'Check your email for verification',
