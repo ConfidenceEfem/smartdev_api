@@ -28,6 +28,11 @@ const RegisterAUser = async (req, res) => {
       email,
       password: hash,
       name,
+      status: '',
+      stack: '',
+      image: '',
+      experience: '',
+      bio: '',
     });
 
     const result1 = await user.save();
@@ -74,6 +79,11 @@ const RegisterAClient = async (req, res) => {
         email,
         password: hash,
         name,
+        status: '',
+        stack: '',
+        image: '',
+        experience: '',
+        bio: '',
       });
 
       const result1 = await user.save();

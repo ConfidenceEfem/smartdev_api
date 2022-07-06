@@ -1,7 +1,7 @@
 const UserModel = require('../model/UserModel');
 const EmployersModel = require('../model/EmployersModel');
 const jwt = require('jsonwebtoken');
-const cloudinary = require('../config/cloudinary');
+const mongoose = require('mongoose');
 
 require('dotenv').config();
 
@@ -35,7 +35,7 @@ const postJob = async (req, res) => {
     ClientJobPost.user = findUser;
     ClientJobPost.save();
 
-    findUser.jobs.push(ClientJobPost);
+    findUser.jobs.push(mongoose.Types.ObjectId(ClientJobPost._id));
     findUser.save();
 
     res
@@ -132,7 +132,6 @@ const updateJob = async (req, res) => {
         .status(201)
         .json({ message: "You don't have right for this operation as a User" });
     } else {
-      const image = await cloudinary.uploader.upload(req.file.path);
       const updateItem = await EmployersModel.findByIdAndUpdate(
         jobid,
         {
@@ -143,8 +142,6 @@ const updateJob = async (req, res) => {
           cost,
           experience,
           deadline,
-          image: image.secure_url,
-          image: image.public_id,
         },
         { new: true }
       );
