@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema(
     },
     stack: {
       type: String,
-      required: true,
     },
     password: {
       type: String,
@@ -24,22 +23,18 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
     },
     image: {
       type: String,
-      required: true,
     },
     imageID: {
       type: String,
     },
     experience: {
       type: String,
-      required: true,
     },
     bio: {
       type: String,
-      required: true,
     },
     isDeveloper: {
       type: Boolean,
