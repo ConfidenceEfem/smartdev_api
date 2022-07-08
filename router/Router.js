@@ -35,6 +35,7 @@ const {
   getAllHired,
   getOneHired,
   HireDeveloper,
+  AcceptOffer,
 } = require('../controller/HireController');
 
 router.post('/register', RegisterAUser);
@@ -62,5 +63,6 @@ router.post('/oneapply/:id/:jobid', uploadCv, ApplyForAJob);
 
 router.post('/hire/:clientid/:developerid', HireDeveloper);
 router.get(`/getAllhired`, getAllHired);
+router.patch(`/hireupdate/:hireid/:clientid/:devid`, AcceptOffer);
 
 module.exports = router;

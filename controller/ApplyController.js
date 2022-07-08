@@ -3,6 +3,7 @@ const EmployersModel = require('../model/EmployersModel');
 const jwt = require('jsonwebtoken');
 const ApplyModel = require('../model/ApplyModel');
 const cloudinary = require('../config/cloudinary');
+const mongoose = require('mongoose');
 
 const getAllApply = async (req, res) => {
   try {
@@ -29,6 +30,9 @@ const ApplyForAJob = async (req, res) => {
       res.status(400).json({ message: 'Input an Id' });
     } else {
     }
+
+    // const findClient = await UserModel.findById(req.params.clientid);
+
     const findUser = await UserModel.findById(developerId);
     if (!findUser.isDeveloper) {
       res
@@ -49,16 +53,19 @@ const ApplyForAJob = async (req, res) => {
       });
 
       applyItem.user = findUser;
-      await applyItem.save();
+      applyItem.save();
+      // applyItem.client = findClient;
+      // applyItem.save();
 
       applyItem.job = findJobs;
-      await applyItem.save();
+      applyItem.save();
 
-      await findJobs.apply.push(applyItem);
-      await findJobs.save();
+      findJobs.apply.push(mongoose.Types.ObjectId(applyItem._id));
+      findJobs.save();
 
-      await findUser.applied.push(applyItem);
-      await findUser.save();
+      findUser.applied.push(mongoose.Types.ObjectId(applyItem._id));
+      findUser.save();
+
       res
         .status(201)
         .json({ message: 'You successfully Applied for Job', data: applyItem });

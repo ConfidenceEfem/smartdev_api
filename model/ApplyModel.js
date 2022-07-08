@@ -21,6 +21,10 @@ const ApplySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // client: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'user',
+    // },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',

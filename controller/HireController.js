@@ -76,6 +76,30 @@ const HireDeveloper = async (req, res) => {
   }
 };
 
+const AcceptOffer = async (req, res) => {
+  try {
+    const hireId = req.params.hireid;
+    const clientid = req.params.clientid;
+    const devid = req.params.devid;
+
+    const findHire = await HireModel.findById(hireId);
+    const findClient = await UserModel.findById(clientid);
+    const findDev = await UserModel.findById(devid);
+
+    const updateOffer = await HireModel.findByIdAndUpdate(
+      hireId,
+      { acceptOffer: true },
+      { new: true }
+    );
+
+    res
+      .status(201)
+      .json({ message: 'Updated Successfully', data: updateOffer });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 // const deleteHire = async (req,res)=> {
 //   try {
 //     const getOneUser = await HireMo
@@ -88,4 +112,5 @@ module.exports = {
   getAllHired,
   getOneHired,
   HireDeveloper,
+  AcceptOffer,
 };
