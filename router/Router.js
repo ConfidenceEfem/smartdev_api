@@ -59,7 +59,7 @@ router.put('/clientjob/:clientid/:jobid', upload, updateJob);
 
 router.get('/allapplied', getAllApply);
 router.get('/oneapply/:id', getOneApply);
-router.post('/oneapply/:id/:jobid', ApplyForAJob);
+router.post('/oneapply/:id/:jobid', uploadCv, ApplyForAJob);
 
 router.post('/hire/:clientid/:developerid', HireDeveloper);
 router.get(`/getAllhired`, getAllHired);
