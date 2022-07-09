@@ -307,13 +307,13 @@ const updateADeveloper = async (req, res) => {
   const { name, stack, status, experience, bio } = req.body;
 
   try {
-    const image = await cloudinary.uploader.upload(req.file.path);
+    // const image = await cloudinary.uploader.upload(req.file.path);
     const updateUser = await UserModel.findByIdAndUpdate(req.params.id, {
       name,
       stack,
       status,
-      image: image.secure_url,
-      imageID: image.public_id,
+      // image: image.secure_url,
+      // imageID: image.public_id,
       experience,
       bio,
     });

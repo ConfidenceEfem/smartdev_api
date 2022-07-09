@@ -48,7 +48,7 @@ router.get('/allusers', GetAllUsers);
 router.get('/user/:id', getOneUser);
 router.post('/register/client', RegisterAClient);
 router.post('/register/client/:otp/:id', verifyAClient);
-router.put('/user/:id', uploadUser, updateADeveloper);
+router.put('/user/:id', updateADeveloper);
 
 router.post('/jobpost/:id', upload, postJob);
 router.get('/alljobs', getAllJob);
