@@ -12,7 +12,7 @@ const ApplySchema = new mongoose.Schema(
     },
     cvImage: {
       type: String,
-      required: true,
+      // required: true,
     },
     cvImageid: {
       type: String,

@@ -43,12 +43,12 @@ const ApplyForAJob = async (req, res) => {
       if (!findJobs) {
         res.status(400).json({ message: "You don't have right for this" });
       }
-      const image = await cloudinary.uploader.upload(req.file.path);
+      // const image = await cloudinary.uploader.upload(req.file.path);
       const applyItem = new ApplyModel({
         email,
         name,
-        cvImage: image.secure_url,
-        cvImageid: image.public_id,
+        // cvImage: image.secure_url,
+        // cvImageid: image.public_id,
         applicationLetter,
       });
 
