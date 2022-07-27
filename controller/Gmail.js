@@ -36,7 +36,7 @@ const verificationEmail = async (email, otp, id) => {
       from: `SmartDev <"smartdevopss@gmail.com">`,
       to: email,
       subject: `Verify your Email with SmartDev`,
-      html: `<h3>Thanks for Creating an account with SmartDev. Click on this <a href="https://smart-dev.netlify.app/con/${otp}/${id}">Link</a> to verify your mail, ${otp} </h3>`,
+      html: `<h3>Thanks for Creating an account with SmartDev. Click on this <a href="https://smart-dev.netlify.app/con/${otp}/${id}">Link</a> to verify your mail.</h3>`,
     };
 
     const result = transport.sendMail(mailOptions, (err, info) => {
@@ -73,7 +73,7 @@ const ClientVerification = async (email, otp, id) => {
       from: `SMART <"smartdevopss@gmail.com">`,
       to: email,
       subject: 'CLIENT VERFICATION',
-      html: `Thank you for Creating an account with SMART. Click this <a href="https://smart-dev.netlify.app/client/${otp}/${id}">Link</a> to complete your process`,
+      html: `Thank you for Creating an account with SMART. Click this <a href="https://smart-dev.netlify.app/client/${otp}/${id}">Link</a> to complete your process.`,
     };
     const result = transport.sendMail(mailOption, (err, info) => {
       if (err) {

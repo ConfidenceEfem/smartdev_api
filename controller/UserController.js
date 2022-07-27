@@ -14,40 +14,67 @@ const RegisterAUser = async (req, res) => {
 
     const otp = crypto.randomBytes(10).toString('hex');
     console.log(otp);
+    const findUser = await UserModel.findOne({ email });
+    if (findUser) {
+      if (findUser.isDeveloper) {
+        res.status(404).json({ message: 'User already exist' });
+      } else {
+        const createOtp = new OtpModel({
+          email: email,
+          otp: otp,
+        });
 
-    const createOtp = new OtpModel({
-      email: email,
-      otp: otp,
-    });
+        // const saltPassword = await bcrypt.genSalt(10);
 
-    const saltPassword = await bcrypt.genSalt(10);
+        // const hash = await bcrypt.hash(password, saltPassword);
 
-    const hash = await bcrypt.hash(password, saltPassword);
+        verificationEmail(email, otp, findUser._id);
 
-    const user = await UserModel.create({
-      email,
-      password: hash,
-      name,
-      status: '',
-      stack: '',
-      image: '',
-      experience: '',
-      bio: '',
-    });
+        const salt = await bcrypt.genSalt(10);
+        createOtp.otp = await bcrypt.hash(createOtp.otp, salt);
 
-    const result1 = await user.save();
+        const result = await createOtp.save();
 
-    verificationEmail(email, otp, user._id);
+        res.status(201).json({
+          message: 'Check your email for verification',
+          data: findUser,
+        });
+      }
+    } else {
+      const createOtp = new OtpModel({
+        email: email,
+        otp: otp,
+      });
 
-    const salt = await bcrypt.genSalt(10);
-    createOtp.otp = await bcrypt.hash(createOtp.otp, salt);
+      const saltPassword = await bcrypt.genSalt(10);
 
-    const result = await createOtp.save();
+      const hash = await bcrypt.hash(password, saltPassword);
 
-    res.status(201).json({
-      message: 'Check your email for verification',
-      data: user,
-    });
+      const user = await UserModel.create({
+        email,
+        password: hash,
+        name,
+        status: '',
+        stack: '',
+        image: '',
+        experience: '',
+        bio: '',
+      });
+
+      const result1 = await user.save();
+
+      verificationEmail(email, otp, user._id);
+
+      const salt = await bcrypt.genSalt(10);
+      createOtp.otp = await bcrypt.hash(createOtp.otp, salt);
+
+      const result = await createOtp.save();
+
+      res.status(201).json({
+        message: 'Check your email for verification',
+        data: user,
+      });
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -56,16 +83,33 @@ const RegisterAUser = async (req, res) => {
 const RegisterAClient = async (req, res) => {
   try {
     const { email, password, name } = req.body;
+    const otp = crypto.randomBytes(10).toString('hex');
+
+    console.log(otp);
 
     const findUser = await UserModel.findOne({ email: email });
 
     if (findUser) {
-      res.status(400).json({ message: 'User already exist' });
+      if (findUser.isClient) {
+        res.status(400).json({ message: 'User already exist' });
+      } else {
+        const createOtp = new OtpModel({
+          email: email,
+          otp: otp,
+        });
+
+        ClientVerification(email, otp, findUser._id);
+        const salt = await bcrypt.genSalt(10);
+        createOtp.otp = await bcrypt.hash(createOtp.otp, salt);
+
+        const result = await createOtp.save();
+
+        res.status(201).json({
+          message: 'Check your email for verification',
+          data: findUser,
+        });
+      }
     } else {
-      const otp = crypto.randomBytes(10).toString('hex');
-
-      console.log(otp);
-
       const createOtp = new OtpModel({
         email: email,
         otp: otp,
@@ -211,7 +255,9 @@ const SignInNewUser = async (req, res) => {
         res.status(400).json({ message: "This User dosn't exist" });
       }
     } else {
-      res.status(201).json({ message: 'You are not yet Verified' });
+      res
+        .status(201)
+        .json({ message: 'You are not yet Verified. Redo your Registration' });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
